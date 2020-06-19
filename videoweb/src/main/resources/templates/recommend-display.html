@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!-- 这里没有任何和后端交互的地方 -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+
+<script src="/js/admin_index.js"></script>
+<link rel="stylesheet" href="/css/admin.css">
+
+	<!-- 新 Bootstrap4 核心 CSS 文件 -->
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+	<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+
+	<!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<style type="text/css">
+	hr
+	{
+		color:#BBBBBE;
+	}
+	.function_moudle
+	{ 
+		width: 300px;
+		height:200px;
+		background-color: #09AAFF;
+		margin-bottom: 50px;
+	}
+	.all_moudle
+	{
+		width: 660px;
+		margin: 100px auto;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+	.background_moudle
+	{
+		background-color:#D5CCCC;
+		position:absolute;
+		left:0px;
+		right:0px;
+		top:66px;
+		bottom:0px;
+	}
+		.draw_bg_moudle
+	{
+		background-color:white;
+		position:absolute;
+		left:10%;
+		right:10%;
+		top:0px;
+		bottom:0px;
+	}
+		.search_moudle
+	{
+		position:absolute;
+		top:100px;
+		left:10%
+	}
+	#search_input
+	{
+		width:500px;
+	}
+	.data_moudle
+	{
+		position:absolute;
+		top:200px;
+		left:10%;
+		width:80%;
+		background-color:#D5CCCC;
+		padding:50px;
+	}
+	.head_message
+	{
+		display:inline-block;
+		width:100%
+	}
+	.body_message
+	{
+		padding:10px;
+	}
+	.data_message
+	{
+		display:inline-block;
+		margin-bottom:10px;
+	}
+	.data_message img
+	{
+		;
+	}
+	.video_moudle
+	{
+		position:relative;
+		border:1px solid red;
+		height:150px;
+		margin-top:3px;
+		background-color:white;
+	}
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark index-navbar" >
+		<!-- Brand -->
+		<a class="navbar-brand" href="#">
+			<img src="/images/logo.png" width="40em" height="40em">
+			Video Web
+		</a>
+
+		<!-- Toggler/collapsibe Button -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse index-navbar mx-auto" id="myNavbar">
+			<ul class="navbar-nav mx-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="/index">关于本网</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/admin/index">返回主页</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/user/personal">个人中心</a>
+				</li> 
+			</ul>
+		</div> 
+
+		<!-- Signin/Singup -->
+		<div class="navbar-nav mx-auto">
+	<span></span>
+				<div class="nav-item" th:if="${session.uid==null} " >
+					<a class="nav-link" href="/login/login">登录</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid!=null} " >
+					<a  class="nav-link" href="/user/personal" th:text="${session.uid}+'，欢迎您'">,欢迎您</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid==null} " >
+					<a class="nav-link" href="/register/register">注册</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid!=null} " >
+					<a class="nav-link" href="/login/logout">注销</a>
+				</div>
+		</div>
+
+	</nav>
+	<!-- 功能模块 -->
+	<div class="background_moudle">
+		<div class="draw_bg_moudle">
+			<div class="search_moudle">
+				<form class="input-group" th:action="@{/admin/recommendadmin/operator(type=user)}" method="get">
+					 <input type="hidden"  name="type" class="form-control"  th:value="user" value="user"/>
+                    <input type="text"  name="uid" class="form-control"  id="search_input" placeholder="请输入用户名/用户id/用户账户" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" type="submit">搜索!</button>
+                    </span>
+                </form>
+			</div>
+			<div class="data_moudle" >
+				<span style="font-size:32px" th:text="'用户名：'+${uid}"></span>
+				<table class="table table-hover">
+				<tr th:each="video:${videolist}">
+				<td th:text="${video}">
+				</table>
+			</div>
+		</div>
+	</div>
+	
+</body>
+
+</html>

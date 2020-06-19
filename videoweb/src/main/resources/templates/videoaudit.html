@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!-- 这里没有任何和后端交互的地方 -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+
+<script src="/js/admin_index.js"></script>
+<link rel="stylesheet" href="/css/admin.css">
+
+	<!-- 新 Bootstrap4 核心 CSS 文件 -->
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+	<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+
+	<!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<style type="text/css">
+	hr
+	{
+		color:#BBBBBE;
+	}
+	.function_moudle
+	{ 
+		width: 300px;
+		height:200px;
+		background-color: #09AAFF;
+		margin-bottom: 50px;
+	}
+	.all_moudle
+	{
+		width: 660px;
+		margin: 100px auto;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+	.background_moudle
+	{
+		background-color:#D5CCCC;
+		position:absolute;
+		left:0px;
+		right:0px;
+		top:66px;
+		bottom:0px;
+	}
+		.draw_bg_moudle
+	{
+		background-color:white;
+		position:absolute;
+		left:10%;
+		right:10%;
+		top:0px;
+		bottom:0px;
+	}
+		.search_moudle
+	{
+		position:absolute;
+		top:100px;
+		left:10%
+	}
+	#search_input
+	{
+		width:500px;
+	}
+	.data_moudle
+	{
+		position:absolute;
+		top:200px;
+		left:10%;
+		width:80%;
+		background-color:#D5CCCC;
+		padding:50px;
+	}
+	.head_message
+	{
+		display:inline-block;
+		width:100%
+	}
+	.body_message
+	{
+		padding:10px;
+	}
+	.data_message
+	{
+		display:inline-block;
+		margin-bottom:10px;
+	}
+	.data_message img
+	{
+		;
+	}
+	.video_moudle
+	{
+		position:relative;
+		border:1px solid red;
+		height:150px;
+		margin-top:3px;
+		background-color:white;
+	}
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark index-navbar" >
+		<!-- Brand -->
+		<a class="navbar-brand" href="#">
+			<img src="/images/logo.png" width="40em" height="40em">
+			Video Web
+		</a>
+
+		<!-- Toggler/collapsibe Button -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse index-navbar mx-auto" id="myNavbar">
+			<ul class="navbar-nav mx-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="/index">关于本网</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/admin/index">返回主页</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/user/personal">个人中心</a>
+				</li> 
+			</ul>
+		</div> 
+
+		<!-- Signin/Singup -->
+		<div class="navbar-nav mx-auto">
+	<span></span>
+				<div class="nav-item" th:if="${session.uid==null} " >
+					<a class="nav-link" href="/login/login">登录</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid!=null} " >
+					<a  class="nav-link" href="/user/personal" th:text="${session.uid}+'，欢迎您'">,欢迎您</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid==null} " >
+					<a class="nav-link" href="/register/register">注册</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid!=null} " >
+					<a class="nav-link" href="/login/logout">注销</a>
+				</div>
+		</div>
+
+	</nav>
+	<!-- 功能模块 -->
+	<div class="background_moudle">
+		<div class="draw_bg_moudle">
+			<div class="search_moudle">
+				<div class="input-group">
+                    <input type="text"  name="searchtext" class="form-control"  id="search_input" placeholder="请输入用户名/用户id/用户账户" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" type="button">搜索!</button>
+                    </span>
+            	</div>
+			</div>
+			<div class="data_moudle" >
+				<div class="video_moudle"  th:each="video:${videolist}" >
+					<div class="body_message" >
+						<div class="data_massage" style="float:left;width:200px;">
+							<a th:href="@{/video/play(vid=${video.vid})} "><img th:src="@{/videourl/{imgsrc}.png(imgsrc=${video.url})} "style="height:100px;width:100px;" /></a>
+						</div>
+							<div class="data_message"  style="width:300px; position:absolute; top:20%; margin:10px;">
+							<span th:text="${video.name}"></span>
+							<br />
+							<span th:text="${video.uid}"></span>
+							<span th:text="${video.time}"></span>
+						</div>
+						<div class="data_message" style="position:absolute; top:20%;left:52%;" >
+							<span th:text="${video.pracount}+'赞'"></span>
+							<br />
+							<span th:text="${video.trecount}+'踩'"></span>
+							<br />
+							<span th:text="${video.colcount}+'收藏'"></span>
+						</div>
+						<div class="data_message" style="position:absolute ;right:5%;width:20%">
+							<a style="width:100px;"  th:href="@{/admin/videoadmin/operator(type=pass,vid=${video.vid})}"><button type="button" class="btn btn-success" style="width:220px; margin:1px;">审核通过</button></a>
+							<br />
+							<a  th:href="@{/admin/videoadmin/aoperator(type=reject,vid=${video.vid})}"><button type="button" class="btn btn-primary" style="width:220px;margin:1px;">审核不通过</button></a>
+							<br />
+							<a  th:href="@{/admin/videoadmin/aoperator(type=delete,vid=${video.vid})}"><button type="button" class="btn btn-danger" style="width:220px;margin:1px;">从系统中删除此视频</button></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</body>
+
+</html>

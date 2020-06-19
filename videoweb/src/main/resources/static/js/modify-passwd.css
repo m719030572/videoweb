@@ -1,0 +1,80 @@
+body 
+{
+	text-align:center;
+	height: 100%;
+}
+
+div .modify
+{
+	text-align: center;
+	position: absolute;
+	top: 100px;
+	width: 100%;
+	margin:0 auto;
+}
+
+img
+{
+	background-size: contain;
+	margin: auto;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	opacity: 0.5;
+	overflow: hidden;
+}
+
+form 
+{
+	width: 500px;
+	height: 300px;
+	position: relative;
+	top: 150px;
+	border-radius: 15px;
+	background: rgba(216,216,216,0.5); 
+	text-align: center;
+	overflow: hidden;
+	outline:none;
+	border:0px solid rgba(0,0,0,.49); 
+}
+
+h3
+{
+	position: relative;
+	text-align: center;
+	font-family:"Times New Roman",Georgia,Serif;
+	font-size: 15em;
+	padding-top: 25px;
+}
+
+.input-box
+{
+	border-style: none;
+	opacity: 0.62;
+	filter:Alpha(opacity=62); /* 早版本 */
+	width:175px;
+	height:28px;
+	border-radius:25px;
+	-moz-border-radius:25px; /* 老的 Firefox */
+	outline:none;
+}
+.input-box :hover
+{
+	border-color: blue;
+	opacity: 0.9;
+	width: 152px;
+	height:42px;
+}
+
+label
+{
+	position: absolute;
+	left:5em;
+
+}
+
+button .right
+{
+	position: relative;
+	right: 100px;
+}

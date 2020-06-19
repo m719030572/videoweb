@@ -1,0 +1,25 @@
+html,body {
+	font-family: sans-serif;
+}
+
+.container {
+	margin-top: 5em;
+}
+
+.card {
+	width: 90%;
+}
+
+.logo img {
+	width: 7em;
+	height: 7em;
+	margin-top: 1em;
+}
+
+.logo-text {
+	text-align: center;
+	font-size: 2em;
+	font-weight: bold;
+	margin-top: 0.5em;
+	margin-left: 1.2em;
+}

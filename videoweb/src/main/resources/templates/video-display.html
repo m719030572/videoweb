@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		
+			<!-- 新 Bootstrap4 核心 CSS 文件 -->
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+	<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+
+	<!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<!--  最新的视频播放器控件 video.js -->
+
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+				border: none;
+			}
+			body{
+				background-color: lightgray;
+			}
+			hr
+			{
+				color:#BBBBBE;
+			}
+			.buttons{
+				display: inline-block;
+			}
+			.buttons a{
+				line-height: 50px;
+				color: rosybrown;
+				font-size: 18px;
+			}
+			.main{
+				width: 80%;
+				margin: 0 auto;
+				display: flex;
+			}
+			.main .left{
+				flex:1;
+				height: 800px;
+				padding: 10px;
+			}
+			.main .left .video-box{
+				background-color: white;
+				padding: 10px;
+			}
+			.main .left .video-box video{
+				margin-top: 10px;
+			}
+			.main .left .comment {
+				margin-top: 10px;
+				background-color: white;
+				padding: 10px;
+				height: 60px;
+				line-height: 40px;
+			}
+			.main .left .comment span{
+				padding: 5px;
+				border: 1px solid gainsboro;
+				border-radius: 3px;
+			}
+			.main .left .mycomment {
+				margin-top: 10px;
+				background-color: white;
+				padding: 10px;
+			}
+			.main .left .mycomment textarea{
+				background-color: #D3D3D3;
+				width: 100%;
+				height: 100px;
+				padding: 10px;
+				box-sizing: border-box;
+				border:none;
+			}
+			 .comment_moudle
+			{
+				border:5px solid white;
+				margin-top: 10px;
+				padding: 10px;
+			}
+			.main .right{
+				width: 30%;
+				height: 800px;
+				padding: 10px;
+			}
+			.main .right .user{
+				position: relative;
+				background-color: white;
+				height: 100px;
+				padding: 35px;
+				box-sizing: border-box;
+			}
+			.main .right .user button{
+				position: absolute;
+				top: 30px;
+				right: 30px;
+				background-color: green;
+				color: white;
+				padding: 8px;
+				border-radius: 4px;
+			}
+			.main .right .list{
+				margin-top: 10px;
+				background-color: white;
+			}
+	.comment_unit
+	{
+		background-color:white;
+		border:1px solid black;
+		margin-top: 10px;
+	}
+	.head_message
+	{
+		display:inline-block;
+		width:100%
+	}
+	.comment_data
+	{
+	display:inline-block;
+	width:80%;
+	}
+	.comment_button
+	{
+		margin-top: 10px;
+		padding: 10px;
+		height: 60px;
+		line-height: 40px;
+	}
+	
+	.comment_button span
+	{
+		padding: 5px;
+		border: 1px solid gainsboro;
+		border-radius: 3px;
+	}
+	
+		.video_unit
+	{
+		border:1px solid #BBBBBB;
+		background-color:white;
+		display:inline-block;
+		height:100px;
+		width:90%;
+		margin-left: 5%;
+		margin-top:2px;
+	}
+	.video_message
+	{
+		float:right;
+		display:inline-block;
+		height:100%;
+		width:55%;
+		border:1px solid #BBBBBB;
+	}
+		.video_image
+	{
+		float:left;
+		height:100%;
+		width:35%;
+		display:inline-block;
+	}
+		.video_image img
+	{
+		height:100%;
+		width:100%;
+	}
+		.video_name
+	{
+		width:80%;
+		display:inline-block;
+	}
+		.video_user
+	{
+		float:left;
+		width:45%;
+		display:inline-block;
+	}
+		.video_date
+	{
+		float:right;
+		width:45%;
+		display:inline-block;
+	}
+		</style>
+		<script th:inline="javascript">
+		function divOut()
+		{
+			var div=document.getElementById("outdiv");
+			div.style.display="block";
+		}
+		function divIn()
+		{
+			var div=document.getElementById("outdiv");
+			div.style.display="none";
+		}
+		function SetTime()
+		{
+	        var date = new Date()<!--获得日期数据-->
+	        var y = date.getFullYear();<!--年-->
+	        var m = date.getMonth()+1;<!--月，这里的月份必须要+1才是当前月份-->
+	        var d = date.getDate(); <!--日，getDay是获得当前星期几（0-6），getDate是获得当前日期-->
+	        document.getElementById("commentform").time.value = y+'-'+m+'-'+d;
+	        return true;
+		}
+		</script>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-md bg-dark navbar-dark index-navbar" >
+		<!-- Brand -->
+		<a class="navbar-brand" href="#">
+			<img src="/images/logo.png" width="40em" height="40em">
+			Video Web
+		</a>
+
+		<!-- Toggler/collapsibe Button -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse index-navbar mx-auto" id="myNavbar">
+			<ul class="navbar-nav mx-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="/index">关于本网</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/user/personal/upload">上传视频</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/user/personal">个人中心</a>
+				</li> 
+			</ul>
+		</div> 
+
+		<!-- Signin/Singup -->
+		<div class="navbar-nav mx-auto">
+	<span></span>
+				<div class="nav-item" th:if="${session.uid==null} " >
+					<a class="nav-link" href="/login/login">登录</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid!=null} " >
+					<a  class="nav-link" href="/user/personal" th:text="${session.uid}+'，欢迎您'">,欢迎您</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid==null} " >
+					<a class="nav-link" href="/register/register">注册</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid!=null} " >
+					<a class="nav-link" href="/login/logout">注销</a>
+				</div>
+		</div>
+
+	</nav>
+		
+		<div class="main">
+			<div class="left" th:object="${video}">
+				<div class="video-box">
+					<div class="video-title" >
+						<div class="name" th:text="${video.name}"></div>
+						<div class="detail">
+							<span class="cate" th:text="'分类：'+${video.category}"></span>
+							<span class="publish-date" th:text=" '时长：'+${video.time}"></span>
+						</div>
+						<div class="count" th:text=" '播放量: '  +${video.brocount}"></div>
+					</div>
+					<video width="100%" th:src="@{/videourl/{videosrc}.mp4(videosrc=${video.url})} "controls="" ></video>
+				</div>
+				<div class="comment"  th:object="${action}">
+					<span th:text="${video.trecount}+ ' 踩'"></span>
+					<span th:text="${video.pracount}+ ' 赞'"></span>
+					<span th:text="${video.colcount}+ ' 收藏  '" ></span>
+					<div  style="float:right;margin-right:20px;">
+					<a th:if="${action.enshrine} eq 0" th:href="@{/video/operator(type=favour,vid=${video.vid})}"><button class="btn btn-primary" >点赞</button></a>
+					<a th:if="${action.enshrine} eq 1" th:href="@{/video/operator(type=disfavour,vid=${video.vid})}"><button class="btn btn-primary" >取消点赞</button></a>
+					<a th:if="${action.dislike} eq 0" th:href="@{/video/operator(type=dislike,vid=${video.vid})}"><button class="btn btn-primary" >点踩</button></a>
+					<a th:if="${action.dislike} eq 1" th:href="@{/video/operator(type=disdislike,vid=${video.vid})}"><button class="btn btn-primary" >取消点踩</button></a>
+					<a th:if="${action.download} eq 0" th:href="@{/video/operator(type=collection,vid=${video.vid})}"><button class="btn btn-primary" >收藏</button></a>
+					<a th:if="${action.download} eq 1" th:href="@{/video/operator(type=discollection,vid=${video.vid})}"><button class="btn btn-primary" >取消收藏</button></a>
+					</div>
+				</div>
+				<div class="mycomment" >
+					<form action="/video/sendcomment"  id="commentform" method="post" th:object="${comment}">
+						<input type="hidden"  name="vid"   th:value="${video.vid}" th:field="*{vid}" />
+						<input type="hidden"  name="uid" th:field="*{uid}" th:value="${video.uid}" />
+						<input type="hidden"  name="commentat" th:field="*{commentat}" value="0" />
+						<input type="hidden" name="time" th:field="*{time}" />
+						<textarea name="data" th:field="*{data}"  placeholder="说点什么吧"></textarea>
+						<div style="width:100%;display:inline-block;margin-top:10px;">
+						<span th:if="${video.compermission} eq 0">
+						<button th:if="${user.shutup} eq 0" class="btn btn-success" style="float:right;margin-right:10px;">写评论</button>
+						</span>
+						<span th:if="${video.compermission} eq 1">
+						<span th:if="${user.shutup} eq 0" class="btn btn-defalult" style="float:right;margin-right:10px;">禁止评论</span>
+						</span>
+						</div>	
+					</form>	
+				</div>
+				<div class="comment_moudle"  th:if="${video.compermission} eq 0" >
+					<div class="comment_unit" th:each="comment: ${commentlist}">
+						<div class="head_message"  th:if="${comment.commentat} eq 0">
+							<span th:text="${comment.uid}" style="float:left;margin-left:10px;"></span>			
+							<span th:if="${comment.isgood} eq 1" style="display:inline-block;margin-left:50%">&nbsp&nbsp&nbsp&nbsp<button class="btn btn-primary" style="display:inline-block;height:30px;">神评</button></span>
+
+							<span th:text="${comment.time}" style="float:right; margin-right:10px;"></span>	
+						</div>
+						<div class="head_message" th:if="${comment.commentat } ne 0">
+							<span th:text="${comment.uid}+'&nbsp&nbsp回复:'+${comment.commentat}" style="float:left;margin-left:10px;"></span>
+							<span th:if="${comment.isgood} eq 1" style="display:inline-block;margin-left:50%">&nbsp&nbsp&nbsp&nbsp<button class="btn btn-primary" style="display:inline-block;height:30px;">神评</button></span>
+							<span th:text="${comment.time}" style="float:right; margin-right:10px;"></span>	
+						</div>
+				
+						<div class="comment_data" th:text="' &nbsp&nbsp&nbsp&nbsp'+${comment.data}"></div>
+						<div class="comment_button" >
+							<span th:text="${comment.dislike}+ ' 踩'"></span>
+							<span th:text="${comment.favour}+ ' 赞'"></span>
+						<div  style="float:right;margin-right:20px;">
+							<a th:href="@{/video/operatorc(type=favour,vid=${video.vid},cid=${comment.cid})}"><button class="btn" style="border: 1px solid gainsboro">点赞</button></a>
+							<a th:href="@{/video/operatorc(type=dislike,vid=${video.vid},cid=${comment.cid})}"><button class="btn" style="border: 1px solid gainsboro">点踩</button></a>
+							<!-- <button th:if="${user.shutup} eq 0" class="btn" style="border: 1px solid gainsboro" onclick="divOut()">回复</button>  -->
+							<div id="outdiv" style="height:100%;width:100%;position:fixed;left:0px;top:0px;display:none;z-index:100; background-color:rgba(187,187,187,0.7);">
+								<div style="width:30% ;height:30%; margin:auto;margin-top:20%; background-color:white">
+									<form role="form" action="test" method="post">
+									<div class="form-group">
+										    <label for="firstname" class="col-sm-2 control-label" th:text="'回复:'+${comment.uid}"></label>
+											    <div class="col-sm-10"style="margin:auto;">
+											      <textarea class="form-control" rows="3"></textarea>
+											    </div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											 <button type="submit" class="btn btn-default" style="border:1px solid gainsboro;margin-left:60%;" onclick="divIn()">回复</button>
+		
+											 <button type="reset" class="btn btn-default"style="border:1px solid gainsboro;margin-left:10%;"onclick="divIn()">取消</button>
+										 </div>
+									</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+			<div class="right">
+				<div class="user" th:object="${user}">	
+					<span th:text=" ' 用户：'+${video.username}"></span>
+					<button class="btn btn-success">+关注</button>
+				</div>
+				<div class="list">
+					<span style="text-align:center;">&nbsp&nbsp为您推荐:</span>
+					<div class="video_unit"  th:each="video:${videolist}" >
+						<div class="video_image" >
+							<!-- @{{imgsrc}(imgsrc=${video.url})} -->
+							<a th:href="@{/video/play(vid=${video.vid})} "><img th:src="@{/videourl/{imgsrc}.png(imgsrc=${video.url})} " /></a>
+						</div>
+						<div class="video_message">
+							<div class="video_name">
+								<span th:text="${video.name}"></span>
+							</div>
+							<br><br>
+							<div class="video_user">
+								<span th:text="${video.username}"></span>
+							</div>
+							<div class="video_date">
+								<span th:text="'时长：'+${video.time}"></span>
+							</div>
+							
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>
+
+	</body>
+</html>

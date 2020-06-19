@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		
+			<!-- 新 Bootstrap4 核心 CSS 文件 -->
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+	<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+
+	<!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<!--  最新的视频播放器控件 video.js -->
+
+	<style>
+		body
+	{
+		background-color:#D5CCCC;
+	}
+	.main
+	{
+		width:80%;
+		height:1000px;
+		margin-left:10%;
+		margin-top:50px;
+		background-color:white;
+		border:1px solid #BBBBBB;
+	}
+	.main .header
+	{
+		width:96%;
+		margin-left:2%;
+		margin-top:10px;
+		height:200px;
+		background: url("/systemimage/personal.png")  no-repeat;
+		background-size: 100% 100%;
+		border:1px solid #BBBBBB;
+	}
+	.main .header span
+	{
+		font-size:32px;
+		color:#242222;
+		font-weight:bold;
+		display:block;
+	}
+	.main .control
+	{
+		width:96%;
+		margin-left:2%;
+		margin-top:10px; 
+		heitht:50px;
+		border:1px solid #BBBBBB;
+	}
+	.main .control .my_button
+	{
+		background-color:#D5CCCC;
+		border: 1px solid #BBBBBB;
+		width:9.5%;
+		height:41px;
+		margin-left:5%;
+		margin-right:5%;
+	}
+	.main .data
+	{
+		width:92%;
+		margin-left:4%;
+		margin-right:4%;
+		margin-top:10px; 
+		height:600px;
+		border:1px solid #BBBBBB;
+	}
+	.main .data textarea
+	{
+		border:1px solid #BBBBBB;
+		width:92%;
+		height:150px;
+		margin-left:4%;
+		margin-top:10px; 
+	}
+	</style>
+
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-md bg-dark navbar-dark index-navbar" >
+		<!-- Brand -->
+		<a class="navbar-brand" href="#">
+			<img src="/images/logo.png" width="40em" height="40em">
+			Video Web
+		</a>
+
+		<!-- Toggler/collapsibe Button -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse index-navbar mx-auto" id="myNavbar">
+			<ul class="navbar-nav mx-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="/index">关于本网</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/user/personal/upload">上传视频</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/user/personal">个人中心</a>
+				</li> 
+			</ul>
+		</div> 
+
+		<!-- Signin/Singup -->
+		<div class="navbar-nav mx-auto">
+	<span></span>
+				<div class="nav-item" th:if="${session.uid==null} " >
+					<a class="nav-link" href="/login/login">登录</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid!=null} " >
+					<a  class="nav-link" href="/user/personal" th:text="${session.uid}+'，欢迎您'">,欢迎您</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid==null} " >
+					<a class="nav-link" href="/register/register">注册</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid!=null} " >
+					<a class="nav-link" href="/login/logout">注销</a>
+				</div>
+		</div>
+
+	</nav>
+		
+		<div class="main" th:object="${user}">
+			<div class="header">
+				<br>
+				<br>
+				<br>
+				<br>
+				<span th:text=" '&nbsp'+${user.userid}"></span>
+				<span th:text=" ' &nbspUID:'+${user.uid}"></span>
+			</div>
+			<div class="control " style="">
+			<a href="/user/personal/follow"><button class=" btn my_button ">我的关注</button></a>
+			<a href="/user/personal/collection"><button class="btn my_button">我的收藏</button></a>
+			<a href="/user/personal/history"><button class="btn my_button">浏览历史</button></a>
+			<a href="/user/personal/myvideo"><button class="btn my_button">我的视频</button></a>
+			<a href="/user/personal/message"><button class="btn my_button">个人信息</button></a>
+			</div>
+			<div class="data">
+				<textarea name="data"  placeholder="这是我的个人介绍"></textarea>
+			</div>
+		</div>
+
+		
+		<div  class="bottom_model" style=" width:100% ;margin-top:10px;background-color:#343a40;height:50px;'">
+			<div class="row">
+				<div class="col">
+					<a class="nav-link" href="#">关于本网</a>
+				</div>
+				<div class="col">
+					<a  class="nav-link" href="#">联系我们</a>
+				</div>
+				<div class="col">
+					<a class="nav-link"  href="#">我们的优势</a>
+				</div>
+				<div class="col">
+					<a class="nav-link"  href="#">隐私说明</a>
+				</div>
+				<div class="col">
+					<a class="nav-link" href="#">视频源</a>
+				</div>
+				<div class="col">
+					<a class="nav-link" href="https://www.bilibili.com/">友情链接 哔哩哔哩</a>
+				</div>
+			</div>
+		</div>
+	<br />
+	</body>
+</html>

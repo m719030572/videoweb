@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<!-- 	
+		移动设备友好
+		width=device-width 表示宽度是设备屏幕的宽度。
+		initial-scale=1 表示初始的缩放比例。
+		shrink-to-fit=no 自动适应手机屏幕的宽度。
+	-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title> 登录 </title>
+
+	<!-- 新 Bootstrap4 核心 CSS 文件 -->
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+	<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+
+	<!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="/css/signup.css">
+
+	<link rel="stylesheet" type="text/css" href="/css/login.css">
+
+	<title>普通的注册</title>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark index-navbar" >
+		<!-- Brand -->
+		<a class="navbar-brand" href="#">
+			<img src="/images/logo.png" width="40em" height="40em">
+			Video Web
+		</a>
+
+		<!-- Toggler/collapsibe Button -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse index-navbar mx-auto" id="myNavbar">
+			<ul class="navbar-nav mx-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="/index">关于本网</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/user/personal/upload">上传视频</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/user/personal">个人中心</a>
+				</li> 
+			</ul>
+		</div> 
+
+		<!-- Signin/Singup -->
+		<div class="navbar-nav mx-auto">
+	<span></span>
+				<div class="nav-item" th:if="${session.uid==null} " >
+					<a class="nav-link" href="/login/login">登录</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid!=null} " >
+					<a  class="nav-link" href="/user/personal" th:text="${session.uid}+'，欢迎您'">,欢迎您</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid==null} " >
+					<a class="nav-link" href="/register/register">注册</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid!=null} " >
+					<a class="nav-link" href="/login/logout">注销</a>
+				</div>
+		</div>
+
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="row">
+					<div class="logo mx-auto">
+						<img src="/images/LOGO.png">
+					</div>
+				</div>
+				<div class="row" style="margin: 3em;">
+					<p class="text-dark logo-text">推荐视频网</p>
+				</div>
+
+				
+				
+			</div>
+			<div class="col" style="width: 100%;">
+
+			
+				<div class="card">
+					<div class="card-header">
+						<div style="height: 0.5em;"></div>
+					</div>
+					<div class="card-body">
+
+
+						<form class="form"  th:action="@{/login/deallogin}" th:object="${user}" method="post">
+
+							<div class="form-group">
+								<input class="form-control" type="text" name="account" th:field="*{uid}" placeholder="请输入账号" required="required" >	
+							</div>
+
+							<div class="form-group">
+								<input class="form-control" type="password" name="password" th:field="*{passwd}" placeholder="请输入密码" required="required" >
+							</div>
+
+							<div class="form-group">
+								<input class="btn btn-block btn-lg btn-light btn-outline-success" type="submit" name="submit" value="登录">
+							</div>
+
+						</form>
+						<span  style="font-size: 0.8em; color:red;" th:if="${#httpServletRequest.getParameter('loginlog')} eq 1" >用户不存在</span>
+						<span  style="font-size: 0.8em; color:red;" th:if="${#httpServletRequest.getParameter('loginlog')} eq 2" >密码错误</span>
+					</div>
+					<div class="card-footer">
+						<div >
+							
+							<p style="font-size: 0.8em;" class="text-center">还没有账号?请 <a href="/register/register">注册</a> </p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

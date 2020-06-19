@@ -1,0 +1,11 @@
+body {
+	background-image: url(../images/FireEscapes.jpg);
+	background-size: auto;
+}
+
+.signin-card {
+	/*
+		不透明度
+	 */
+	opacity: 0.3;
+}

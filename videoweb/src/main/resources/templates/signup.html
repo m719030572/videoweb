@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<!-- 	
+		移动设备友好
+		width=device-width 表示宽度是设备屏幕的宽度。
+		initial-scale=1 表示初始的缩放比例。
+		shrink-to-fit=no 自动适应手机屏幕的宽度。
+	-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title> 注册 </title>
+
+	<!-- 新 Bootstrap4 核心 CSS 文件 -->
+	
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+	<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+
+	<!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="/css/signup.css">
+
+
+	<title>普通的注册</title>
+	<script th:src="signup.js"></script>
+	<script type="text/javascript">
+	
+	$(document).ready(function() {
+		$("button").click(function(event) {
+			var email = $("#email").getAttribute("value");
+			if(email == "") {
+				alert("请输入邮箱地址");
+			}
+			else {
+				$.post("/register/getverify",{"email": email},function() {
+					alert("验证码发送成功！");
+				});
+				$(this).hide();
+			}
+		});
+	});
+</script>
+	<script th:inline="javascript">
+	{
+		var email=[[${user.email}]]
+		console.log(email)
+	}
+	</script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark index-navbar" >
+		<!-- Brand -->
+		<a class="navbar-brand" href="#">
+			<img src="/images/logo.png" width="40em" height="40em">
+			Video Web
+		</a>
+
+		<!-- Toggler/collapsibe Button -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse index-navbar mx-auto" id="myNavbar">
+			<ul class="navbar-nav mx-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="/index">关于本网</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/user/personal/upload">上传视频</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/user/personal">个人中心</a>
+				</li> 
+			</ul>
+		</div> 
+
+		<!-- Signin/Singup -->
+		<div class="navbar-nav mx-auto">
+	<span></span>
+				<div class="nav-item" th:if="${session.uid==null} " >
+					<a class="nav-link" href="/login/login">登录</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid!=null} " >
+					<a  class="nav-link" href="/user/personal" th:text="${session.uid}+'，欢迎您'">,欢迎您</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid==null} " >
+					<a class="nav-link" href="/register/register">注册</a>
+				</div>
+				<div class="nav-item" th:if="${session.uid!=null} " >
+					<a class="nav-link" href="/login/logout">注销</a>
+				</div>
+		</div>
+
+	</nav>
+
+
+		<div class="container">
+			<div class="card mx-auto bg-light">
+
+				<div class="card-header">
+					<div class="logo mx-auto">
+						<img class="mx-auto" style="width: 5em;height: 5em;" src="/images/LOGO.png">
+					</div>
+
+				</div>
+
+				<div class="card-body">
+
+					<form class="form-inline mx-auto" name="verify" th:action="@{/register/getverify}" th:object="${user}" method="post">
+						<input class="form-control mx-auto" type="email" id="email" name="email" placeholder="请输入邮箱" required="required" th:field="*{email}" >
+						<button class="btn btn-light btn-outline-warning" style="margin-left: 0.5em;">获取验证码</button>
+					</form>
+
+					<form class="form" name="signup" th:action="@{/register/dealregister}" th:object="${user}" method="post" style="margin: 1em;">
+
+						<div class="form-group">
+							<input class="form-control" type="text" name="checkcode" placeholder="请输入验证码" required="required" th:field="*{checkcode}" >
+						</div>
+
+						<div class="form-group">
+							<input class="form-control" type="text" name="uid" placeholder="请输入账户" required="required"  th:field="*{uid}"  >
+						</div>
+						<div class="form-group">
+							<input class="form-control" type="hidden" name="email" placeholder="邮箱" required="required" th:value=${email} th:field="*{email}"  >
+						</div>
+
+						<div class="form-group">
+							<input class="form-control" type="password" name="password" placeholder="请输入密码" required="required"   th:field="*{passwd}" />
+						</div>
+						<div class="role">
+							<label class="radio-inline"><input type="radio" name="optradio">用户</label>
+						</div>
+
+			
+
+
+						<div class="form-group mx-auto">
+							<input class="btn btn-light btn-outline-success btn-lg btn-block mx-auto" type="submit" name="submit" value="注册" onclick="changeSubmitAction()" style="width: 80%;">
+						<span  style="font-size: 0.8em; color:red;" th:if="${#httpServletRequest.getParameter('loginlog')} eq 1" >用户已经存在</span>
+						<span  style="font-size: 0.8em; color:red;" th:if="${#httpServletRequest.getParameter('loginlog')} eq 2" >验证码错误</span>
+						</div>
+
+					</form>
+
+				</div>
+
+			</div>
+		</div>
+
+</body>
+</html>
+

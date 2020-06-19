@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="/css/forgetpw.css">
+	<!-- 新 Bootstrap4 核心 CSS 文件 -->
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+	<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+
+	<!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="d-flex justify-content-around header">
+		<div class="p-2">
+			<div class="d-flex flex-row mb-3">
+				<div class="p-2"><h4 class="font-weight-light">安全中心</h4></div>
+				<div class="p-2"><h5 class="font-weight-light">-重置密码</h5></div>
+			</div>
+		</div>
+		<div class="p-2">
+			<a href="  ">登录</a>
+		</div>
+	</div>
+
+	<div class="modify "> 
+
+
+		<div class="form">
+			<form class="mx-auto" th:action="@{/passwd/getverify}" th:object="${user}" method="post">
+				<h3>修改密码</h3>
+				<div class="account">
+					<label for="id">账号</label>
+					<input class="input-box" type="text" id="id" th:field="*{uid}">
+					<button class="btn">发送验证码</button>
+				</div>	
+			</form>
+
+			<form th:action="@{dealforgetpasswd}" th:object="${user}" method="post">
+				<div class="d-flex flex-column formmain">	
+					<div class="verify">
+						<label for="verify">验证码</label>
+						<input class="input-box" type="text" id="verify" name="verify" th:field="*{checkcode}">
+					</div>
+					<div class="p-2 border form-element">
+						<label for="passwd">新密码</label><input type="password" class="input-box" name="passwd" id="passwd" th:field="*{passwd}"> 
+					</div>
+					<div class="p-2 border form-element">
+						<label for="pw">确定密码</label><input type="password" class="input-box" name="pw" id="pw"> 
+					</div>
+					<div class="d-flex justify-content-around">
+						<input type="reset" value="重置"/>  
+						<input type="submit" value="确认"/>
+					</div>
+				</div>	
+			</form>
+
+
+		</div>
+		
+		
+	</div>
+</body>
+</html>
